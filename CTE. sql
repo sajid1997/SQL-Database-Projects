@@ -1,0 +1,72 @@
+/*Task:
+
+The HR wants to know the second highest salary in each department along with the employee name(s).*/
+
+WITH CTE
+AS
+
+(
+SELECT Department, EmployeeName, Salary,
+DENSE_RANK() OVER(Partition By Department Order By Salary Desc) as Ranking
+from mulazim
+)
+SELECT * from CTE
+Where  Ranking <= 2;
+
+
+
+/*Write a SQL query to display:
+Department
+EmployeeName
+Salary
+AverageSalaryOfDepartment
+AboveDeptAvg (Yes/No)*/
+
+With CTE AS
+(
+ Select Department, EmployeeName, Salary from mulazim
+),
+
+AVG_SALARY as
+(
+ Select Department,AVG(Salary) as AverageSalaryOfDepartment from mulazim
+ Group By Department
+)
+
+Select C.Department, C.EmployeeName, C.Salary,  A.AverageSalaryOfDepartment,
+Case
+When Salary > AverageSalaryOfDepartment Then 'YES'
+Else 'NO'
+END AS AboveDeptAvg 
+from CTE C
+inner join AVG_SALARY A ON A.Department = C.Department
+
+
+/*Scenario:
+HR wants to classify employees per department based on Salary relative to department average:
+If Salary > Department Average → “Above Average”
+If Salary = Department Average → “Average”
+If Salary < Department Average → “Below Average”*/
+  
+;WITH  CTE
+as
+(
+ Select  EmployeeName, Department,Salary
+ from mulazim 
+),
+AVG_CTE
+AS
+(
+ select Department, AVG(Salary) as DepartmentAverageSalary from mulazim
+ group by Department
+)
+Select  C.EmployeeName, C.Department, C.Salary, A.DepartmentAverageSalary,
+CASE 
+when C.salary > A.DepartmentAverageSalary Then 'Above Average'
+when C.salary = A.DepartmentAverageSalary Then 'Average'
+Else 'Below Average'
+END as PerformanceCategory
+from CTE C 
+INNER JOIN AVG_CTE A on A.Department=C.Department
+ORDER BY C.Department, C.Salary DESC;
+
