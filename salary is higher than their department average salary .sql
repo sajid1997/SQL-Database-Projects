@@ -13,7 +13,7 @@ With CTE
 AS
 (
  Select EmployeeName,Department, Salary
- From mulazim 
+ From Employees
 ),
  AVG_SALARY
  as
