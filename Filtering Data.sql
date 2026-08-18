@@ -59,3 +59,38 @@ letter a anywhere in the name, but does not start with A.*/
 
 select EmployeeName, Age, DepartmentName from employees 
 Where EmployeeName Like '%A%' AND EmployeeName not like 'A%'
+
+
+/*Question 6 — Advanced 🔴
+Write a query to display the EmployeeName, Age, and DepartmentName of employees whose name has exactly 5 characters.*/
+
+
+Select E.EmployeeName, E.Age, D.DepartmentName from employees AS E
+inner join Department as D on D.DepartmentID = E.DepartmentName
+where len(E.EmployeeName) > 5
+
+
+/*Question 7 — Advanced 🔴
+Write a query to display the EmployeeName, Age, and DepartmentName of employees whose name
+starts with A and has exactly 5 characters.*/
+
+Select E.EmployeeName, E.Age, D.DepartmentName from Employees as E
+Inner join Department AS D ON D.DepartmentID = E.DepartmentName
+Where E.EmployeeName Like 'A%' AND LEN(EmployeeName) = 5
+--solution is still 100% logically correct. 💯
+
+/*Question 8 — Advanced 🔴
+
+Write a query to display the EmployeeName, Age, and DepartmentName of employees whose name:
+
+starts with A OR S
+has at least 5 characters
+and whose age is greater than 25*/
+
+Select EmployeeName, Age, D.DepartmentName from Employees As E 
+Inner join Department As D ON D.DepartmentID = E.DepartmentName
+wHERE (E.EmployeeName    Like 'A%' OR E.EmployeeName like 's%')
+and len(E.EmployeeName) >= 5
+And E.Age > 25
+--🔥 Excellent! 10/10 — Correct.
+
