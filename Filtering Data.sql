@@ -94,3 +94,23 @@ and len(E.EmployeeName) >= 5
 And E.Age > 25
 --🔥 Excellent! 10/10 — Correct.
 
+
+/*Question 9 — Advanced 🔴
+
+Write a query to display the EmployeeName, Age, and DepartmentName of employees whose name contains
+exactly two occurrences of the letter a (case-insensitive) and whose age is greater than 25.*/
+
+
+
+
+SELECT 
+    E.EmployeeName,
+    E.Age,
+    D.DepartmentName
+FROM Employees AS E
+INNER JOIN Department AS D
+    ON D.DepartmentID = E.DepartmentName
+WHERE 
+    LEN(E.EmployeeName) - LEN(REPLACE(LOWER(E.EmployeeName), 'a', '')) = 2
+    AND E.Age > 25;
+
