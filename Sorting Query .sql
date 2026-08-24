@@ -49,3 +49,29 @@ Select D.DepartmentName, AVG(E.AGE) as AverageAge, Count(*) as TotalEmployees fr
 inner Join Department AS D on D.DepartmentID = E.DepartmentName
 Group By D.DepartmentName
 Order by AverageAge DESC, TotalEmployees Desc;
+
+--🔥 Perfect! 10/10
+
+
+
+/*Question 4 — Advanced 🔴
+
+Write a query to display the 5 oldest employees, including their EmployeeName, Age,
+and DepartmentName. If two employees have the same age, sort their names alphabetically.*/
+
+--Using CTE
+with CTE 
+as
+(
+Select E.EmployeeName, E.Age , D.DepartmentName,
+Rank() Over(Order by E.Age Desc) as Ranking
+from Employees as E 
+Inner Join Department AS D ON D.DepartmentID = E.DepartmentName
+)
+Select EmployeeName, Age, DepartmentName From CTE 
+Where Ranking <=5
+
+--Using select statement 
+Select top 5  E.EmployeeName, E.Age , D.DepartmentName from Employees as E 
+Inner Join Department AS D ON D.DepartmentID = E.DepartmentName
+Order by Age desc
